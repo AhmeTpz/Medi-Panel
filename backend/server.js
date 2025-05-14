@@ -16,7 +16,7 @@ const auth = new google.auth.GoogleAuth({
   scopes: ['https://www.googleapis.com/auth/spreadsheets']
 });
 
-// Doktorları getir
+
 app.get('/api/doktorlar', async (req, res) => {
   try {
     const client = await auth.getClient();
@@ -31,7 +31,7 @@ app.get('/api/doktorlar', async (req, res) => {
   }
 });
 
-// Randevuları getir
+
 app.get('/api/randevular', async (req, res) => {
   try {
     const client = await auth.getClient();
@@ -46,36 +46,13 @@ app.get('/api/randevular', async (req, res) => {
   }
 });
 
-// Randevu ekle
+
 app.post('/api/randevu-ekle', async (req, res) => {
   const { hastaTC, doktorID, randevuTarih, randevuSaat } = req.body;
-  if (!hastaTC || !doktorID || !randevuTarih || !randevuSaat) {
-    return res.status(400).json({ success: false, message: 'Eksik alan var' });
-  }
 
   try {
     const client = await auth.getClient();
     const sheets = google.sheets({ version: 'v4', auth: client });
-
-    const allRows = await sheets.spreadsheets.values.get({
-      spreadsheetId,
-      range: sheetRandevu
-    });
-
-    const rows = allRows.data.values || [];
-    const dataRows = rows.filter(row => row[0] !== 'ID');
-
-    // ❗ Tarih ve saat doğrudan string olarak kontrol edilecek
-    const ayniSaatteRandevu = dataRows.filter(r =>
-      String(r[2]) === String(doktorID) &&
-      String(r[3]) === String(randevuTarih) &&
-      String(r[4]) === String(randevuSaat)
-    );
-
-    if (ayniSaatteRandevu.length >= 4) {
-      return res.status(400).json({ success: false, message: 'Bu saatte bu doktora daha fazla randevu alınamaz.' });
-    }
-
     const now = new Date();
     const kayitSaat = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
     const kayitTarih = randevuTarih;
@@ -106,7 +83,6 @@ app.post('/api/randevu-ekle', async (req, res) => {
   }
 });
 
-// Kullanıcının kendi randevularını ve doktor bilgilerini dönen endpoint
 app.get('/api/randevularim', async (req, res) => {
   const { tc } = req.query;
   if (!tc) return res.status(400).json({ success: false, message: 'TC zorunlu' });
@@ -115,14 +91,13 @@ app.get('/api/randevularim', async (req, res) => {
     const client = await auth.getClient();
     const sheets = google.sheets({ version: 'v4', auth: client });
 
-    // Verileri çek
     const [randevuSheet, doktorSheet] = await Promise.all([
       sheets.spreadsheets.values.get({ spreadsheetId, range: sheetRandevu }),
       sheets.spreadsheets.values.get({ spreadsheetId, range: sheetDoktor })
     ]);
 
     const doktorVerileri = doktorSheet.data.values || [];
-    const doktorlar = doktorVerileri.slice(1); // başlığı atla ❗
+    const doktorlar = doktorVerileri.slice(1);
 
     const randevuVerileri = randevuSheet.data.values || [];
     const randevular = randevuVerileri.filter(r => r[0] !== 'ID');
@@ -138,7 +113,7 @@ app.get('/api/randevularim', async (req, res) => {
         randevuSaat: r[4],
         mail: doktor ? doktor[3] : '',
         tel: doktor ? doktor[4] : '',
-        cinsiyet: doktor && doktor[6] ? doktor[6] : 'E' // ✔ 7. sütun (G) doğrudan çekiliyor
+        cinsiyet: doktor && doktor[6] ? doktor[6] : 'E'
       };
     });
 

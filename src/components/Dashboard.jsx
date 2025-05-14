@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Button, Typography, Space } from 'antd';
+import background from '../assets/background.jpg';
 
 const { Title } = Typography;
 
@@ -11,7 +12,10 @@ const Dashboard = ({ user, onSelect, onLogout }) => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: '#f0f2f5', // Arka plan rengi
+      backgroundImage: `url(${background})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
     }}>
       <Card
         style={{
@@ -22,7 +26,7 @@ const Dashboard = ({ user, onSelect, onLogout }) => {
           textAlign: 'center',
         }}
       >
-        <Title level={3}>Hoşgeldiniz, {user.tc}</Title>
+        <Title level={3}>Hoşgeldiniz, {user.name}</Title>
         <Space direction="vertical" size="middle" style={{ width: '100%' }}>
           <Button type="primary" block onClick={() => onSelect('randevuAl')}>
             Randevu Al

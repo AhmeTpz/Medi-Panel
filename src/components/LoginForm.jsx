@@ -4,8 +4,8 @@ import { Form, Input, Button, Typography, message } from 'antd';
 const { Title } = Typography;
 
 const fakeUsers = [
-  { tc: '12345678901', password: '1234' },
-  { tc: '11111111111', password: 'abcd' }
+  { tc: '12345678901', password: '1234', name: 'İbrahim Tatlısert' },
+  { tc: '11111111111', password: 'abcd', name: 'Yıldız Tibet' }
 ];
 
 const LoginForm = ({ onLogin }) => {
@@ -13,7 +13,6 @@ const LoginForm = ({ onLogin }) => {
   const messageContainerRef = useRef(null);
 
   useEffect(() => {
-    // Sadece bu component için mesaj gösterilsin
     message.config({
       getContainer: () => messageContainerRef.current
     });
@@ -50,7 +49,7 @@ const LoginForm = ({ onLogin }) => {
       background: '#fff',
       borderRadius: 10,
       boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)',
-      position: 'relative', // mesajlar burada gösterilsin diye
+      position: 'relative',
       zIndex: 1
     }}>
       <Title level={3} style={{ textAlign: 'center' }}>Hasta Girişi</Title>

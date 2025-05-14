@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Button, Select, DatePicker, message, Spin, Typography, Space } from 'antd';
 import dayjs from 'dayjs';
 import { doktorlariGetir, randevulariGetir, randevuEkle } from '../api/randevuApi';
+import background from '../assets/background.jpg';
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -19,7 +20,6 @@ const RandevuAl = ({ user, onBack, onRandevuHazirla }) => {
   const [checking, setChecking] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
 
-  // Doktorları çek
   useEffect(() => {
     async function fetchDoctors() {
       try {
@@ -63,7 +63,7 @@ const RandevuAl = ({ user, onBack, onRandevuHazirla }) => {
     setSaatDolumu({});
   };
 
-  // Saat doluluklarını kontrol eden fonksiyon
+
   const fetchSaatDoluluk = async (doktorID, tarih) => {
     try {
       const rows = await randevulariGetir();
@@ -102,7 +102,6 @@ const RandevuAl = ({ user, onBack, onRandevuHazirla }) => {
     }
     setLoading(true);
     try {
-      // Randevu ekle
       const result = await randevuEkle({
         hastaTC: user.tc,
         doktorID: values.doctor,
@@ -128,7 +127,10 @@ const RandevuAl = ({ user, onBack, onRandevuHazirla }) => {
       <div style={{
         width: '100vw',
         height: '100vh',
-        backgroundColor: '#f0f2f5',
+        backgroundImage: `url(${background})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
@@ -142,7 +144,10 @@ const RandevuAl = ({ user, onBack, onRandevuHazirla }) => {
     <div style={{
       width: '100vw',
       height: '100vh',
-      background: '#f0f2f5',
+      backgroundImage: `url(${background})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -197,26 +202,34 @@ const RandevuAl = ({ user, onBack, onRandevuHazirla }) => {
             />
           </Form.Item>
           <Form.Item label="Saat" required>
-  <Space wrap>
-    {SAATLER.map(saat => (
-      <Button
-        key={saat}
-        type={selectedTime === saat ? 'primary' : 'default'}
-        onClick={() => setSelectedTime(saat)}
-        disabled={
-          checking ||
-          !selectedDoctor ||
-          !selectedDate ||
-          saatDolumu[saat] === true
-        }
-        style={saatDolumu[saat] ? { background: '#eee', color: '#aaa', borderColor: '#ccc' } : {}}
-        title={saatDolumu[saat] ? 'Bu saat dolu' : 'Uygun'}
-      >
-        {saat}
-      </Button>
-    ))}
-  </Space>
-</Form.Item>
+            <Space wrap>
+              {SAATLER.map(saat => {
+                const isToday = selectedDate && selectedDate.isSame(dayjs(), 'day');
+                const currentTime = dayjs();
+                const appointmentTime = isToday ? dayjs(saat, 'HH:mm') : null;
+                const isPastTime = isToday && appointmentTime.isBefore(currentTime);
+                
+                return (
+                  <Button
+                    key={saat}
+                    type={selectedTime === saat ? 'primary' : 'default'}
+                    onClick={() => setSelectedTime(saat)}
+                    disabled={
+                      checking ||
+                      !selectedDoctor ||
+                      !selectedDate ||
+                      saatDolumu[saat] === true ||
+                      isPastTime
+                    }
+                    style={saatDolumu[saat] || isPastTime ? { background: '#eee', color: '#aaa', borderColor: '#ccc' } : {}}
+                    title={saatDolumu[saat] ? 'Bu saat dolu' : isPastTime ? 'Geçmiş saat' : 'Uygun'}
+                  >
+                    {saat}
+                  </Button>
+                );
+              })}
+            </Space>
+          </Form.Item>
 
           <Form.Item>
             <Button type="primary" htmlType="submit" block disabled={!selectedTime}>Randevu Al</Button>

@@ -3,6 +3,7 @@ import { Card, List, Avatar, Typography, Spin, message, Empty } from 'antd';
 import axios from 'axios';
 import docMan from '../assets/docman.svg';
 import docWoman from '../assets/docwoman.svg';
+import background from '../assets/background.jpg';
 
 const { Title, Text } = Typography;
 
@@ -34,12 +35,15 @@ const Randevularim = ({ user, onBack }) => {
     <div style={{
       width: '100vw',
       height: '100vh',
-      background: '#f0f2f5',
+      backgroundImage: `url(${background})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'flex-start',
       overflow: 'auto',
-      padding: 24
+      padding: 24,
     }}>
       <div style={{
         width: '100%',
