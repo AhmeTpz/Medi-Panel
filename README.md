@@ -74,4 +74,4 @@ Ana sayfa, saat seçimi ve alınan randevular ekranına ait örnekler `assets/` 
 
 ---
 
-**Geliştirici:** Ahmet TOPUZ Tarih: 2025
+**Geliştirici:** Ahmet TOPUZ  2025
