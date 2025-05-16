@@ -53,6 +53,7 @@ const LoginForm = ({ onLogin }) => {
       zIndex: 1
     }}>
       <Title level={3} style={{ textAlign: 'center' }}>Hasta Girişi</Title>
+      
       <Form layout="vertical" onFinish={onFinish} autoComplete="off">
         <Form.Item
           label="TC Kimlik No"
@@ -64,6 +65,7 @@ const LoginForm = ({ onLogin }) => {
         >
           <Input maxLength={11} autoComplete="username" />
         </Form.Item>
+
         <Form.Item
           label="Şifre"
           name="password"
@@ -71,6 +73,7 @@ const LoginForm = ({ onLogin }) => {
         >
           <Input.Password autoComplete="current-password" />
         </Form.Item>
+
         <Form.Item>
           <Button type="primary" htmlType="submit" block loading={loading}>
             Giriş Yap

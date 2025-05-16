@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Card, List, Avatar, Typography, Spin, message, Empty } from 'antd';
-import axios from 'axios';
 import docMan from '../assets/docman.svg';
 import docWoman from '../assets/docwoman.svg';
 import background from '../assets/background.jpg';
+import { kullaniciRandevulariniGetir } from '../api/randevuApi';
 
 const { Title, Text } = Typography;
 
@@ -15,8 +15,8 @@ const Randevularim = ({ user, onBack }) => {
     async function fetchRandevular() {
       setLoading(true);
       try {
-        const res = await axios.get(`http://localhost:5000/api/randevularim?tc=${user.tc}`);
-        setRandevular(res.data);
+        const res = await kullaniciRandevulariniGetir(user.tc);
+        setRandevular(res);
       } catch (err) {
         message.error('Randevular alınamadı!');
       } finally {
@@ -54,12 +54,14 @@ const Randevularim = ({ user, onBack }) => {
         boxShadow: '0 4px 16px rgba(0,0,0,0.1)'
       }}>
         <Title level={4} style={{ textAlign: 'center', marginBottom: 24 }}>Randevularım</Title>
+        
         {loading ? (
-  <div style={{ display: 'flex', justifyContent: 'center', padding: '40px 0' }}>
-    <Spin tip="Yükleniyor..." size="large" />
-  </div>
-) : randevular.length === 0 ? (
-  <Empty description="Hiç randevunuz yok." />) : (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '40px 0' }}>
+            <Spin tip="Yükleniyor..." size="large" />
+          </div>
+        ) : randevular.length === 0 ? (
+          <Empty description="Hiç randevunuz yok." />
+        ) : (
           <List
             itemLayout="vertical"
             dataSource={randevular}
@@ -90,4 +92,4 @@ const Randevularim = ({ user, onBack }) => {
   );
 };
 
-export default Randevularim; 
+export default Randevularim;

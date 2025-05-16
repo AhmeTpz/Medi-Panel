@@ -63,7 +63,6 @@ const RandevuAl = ({ user, onBack, onRandevuHazirla }) => {
     setSaatDolumu({});
   };
 
-
   const fetchSaatDoluluk = async (doktorID, tarih) => {
     try {
       const rows = await randevulariGetir();
@@ -163,6 +162,7 @@ const RandevuAl = ({ user, onBack, onRandevuHazirla }) => {
         boxShadow: '0 4px 16px rgba(0,0,0,0.1)'
       }}>
         <Title level={4} style={{ textAlign: 'center' }}>Randevu Al</Title>
+        
         <Form layout="vertical" form={form} onFinish={onFinish}>
           <Form.Item label="Poliklinik" name="poliklinik" rules={[{ required: true, message: 'Poliklinik seçiniz!' }]}>
             <Select placeholder="Poliklinik seçiniz" onChange={onPoliklinikChange} allowClear>
@@ -171,6 +171,7 @@ const RandevuAl = ({ user, onBack, onRandevuHazirla }) => {
               ))}
             </Select>
           </Form.Item>
+
           <Form.Item label="Doktor" name="doctor" rules={[{ required: true, message: 'Doktor seçiniz!' }]}>
             <Select 
               placeholder="Doktor seçiniz" 
@@ -190,6 +191,7 @@ const RandevuAl = ({ user, onBack, onRandevuHazirla }) => {
               ))}
             </Select>
           </Form.Item>
+
           <Form.Item label="Tarih" name="date" rules={[{ required: true, message: 'Tarih seçiniz!' }]}>
             <DatePicker 
               style={{ width: '100%' }} 
@@ -201,6 +203,7 @@ const RandevuAl = ({ user, onBack, onRandevuHazirla }) => {
               }}
             />
           </Form.Item>
+
           <Form.Item label="Saat" required>
             <Space wrap>
               {SAATLER.map(saat => {

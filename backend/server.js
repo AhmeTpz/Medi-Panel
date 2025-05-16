@@ -16,7 +16,6 @@ const auth = new google.auth.GoogleAuth({
   scopes: ['https://www.googleapis.com/auth/spreadsheets']
 });
 
-
 app.get('/api/doktorlar', async (req, res) => {
   try {
     const client = await auth.getClient();
@@ -31,7 +30,6 @@ app.get('/api/doktorlar', async (req, res) => {
   }
 });
 
-
 app.get('/api/randevular', async (req, res) => {
   try {
     const client = await auth.getClient();
@@ -45,7 +43,6 @@ app.get('/api/randevular', async (req, res) => {
     res.status(500).json({ success: false, message: 'Randevular alınamadı' });
   }
 });
-
 
 app.post('/api/randevu-ekle', async (req, res) => {
   const { hastaTC, doktorID, randevuTarih, randevuSaat } = req.body;

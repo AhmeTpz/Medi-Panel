@@ -4,7 +4,6 @@ import Dashboard from './components/Dashboard';
 import { message } from 'antd';
 import RandevuAl from './components/RandevuAl';
 import Randevularim from './components/Randevularim';
-import axios from 'axios';
 import logo from './assets/Medivite.png';
 import background from './assets/background.jpg';
 import background2 from './assets/background2.jpg';
@@ -83,6 +82,7 @@ function App() {
   return (
     <>
       <div style={backgroundStyle}></div>
+      
       {page === 'dashboard' ? (
         <img
           src={logo}
@@ -111,6 +111,7 @@ function App() {
           }}
         />
       )}
+
       {page === 'dashboard' ? (
         <Dashboard user={user} onSelect={setPage} onLogout={handleLogout} />
       ) : page === 'randevuAl' ? (

@@ -27,13 +27,16 @@ const Dashboard = ({ user, onSelect, onLogout }) => {
         }}
       >
         <Title level={3}>Hoşgeldiniz, {user.name}</Title>
+        
         <Space direction="vertical" size="middle" style={{ width: '100%' }}>
           <Button type="primary" block onClick={() => onSelect('randevuAl')}>
             Randevu Al
           </Button>
+          
           <Button block onClick={() => onSelect('randevularim')}>
             Randevularım
           </Button>
+          
           <Button danger block onClick={onLogout}>
             Çıkış Yap
           </Button>

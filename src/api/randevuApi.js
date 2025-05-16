@@ -32,6 +32,21 @@ export async function randevulariGetir() {
   }
 }
 
+export async function kullaniciRandevulariniGetir(tc) {
+  try {
+    const response = await fetch(`http://localhost:5000/api/randevularim?tc=${tc}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    return response.json();
+  } catch (error) {
+    console.error('Kullanıcı randevuları alınırken hata:', error);
+    throw error;
+  }
+}
+
 export async function doktorlariGetir() {
   try {
     const response = await fetch('http://localhost:5000/api/doktorlar');
